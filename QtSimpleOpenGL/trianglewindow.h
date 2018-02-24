@@ -12,7 +12,7 @@ public:
 
 	void initializeGL() override;
 	void paintGL() override;
-
+	
 private:
 	GLuint m_posAttr;
 	GLuint m_colAttr;
@@ -20,4 +20,6 @@ private:
 
 	QOpenGLShaderProgram *m_program;
 	int m_frame;
+
+	const QString readShaderFile(const QString& name) const;
 };

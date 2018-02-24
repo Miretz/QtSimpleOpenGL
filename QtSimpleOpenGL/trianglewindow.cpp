@@ -1,21 +1,10 @@
 #include "trianglewindow.h"
 #include <QScreen>
+#include <QFile>
+#include <QTextStream>
+#include <sstream>
+#include <string>
 
-static const char *vertexShaderSource =
-"attribute highp vec4 posAttr;\n"
-"attribute lowp vec4 colAttr;\n"
-"varying lowp vec4 col;\n"
-"uniform highp mat4 matrix;\n"
-"void main() {\n"
-"   col = colAttr;\n"
-"   gl_Position = matrix * posAttr;\n"
-"}\n";
-
-static const char *fragmentShaderSource =
-"varying lowp vec4 col;\n"
-"void main() {\n"
-"   gl_FragColor = col;\n"
-"}\n";
 
 TriangleWindow::TriangleWindow()
 	: m_program(0)
@@ -27,12 +16,27 @@ TriangleWindow::~TriangleWindow()
 {
 }
 
+const QString TriangleWindow::readShaderFile(const QString& name) const
+{
+	QString path = QStringLiteral(u":/Resources/") + name;
+	QFile inputFile(path);
+	inputFile.open(QIODevice::ReadOnly);
+
+	QTextStream in(&inputFile);
+	QString content = in.readAll();
+	inputFile.close();
+
+	return content;
+}
+
+
 void TriangleWindow::initializeGL()
 {
 	initializeOpenGLFunctions();
+	
 	m_program = new QOpenGLShaderProgram(this);
-	m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, vertexShaderSource);
-	m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, fragmentShaderSource);
+	m_program->addShaderFromSourceCode(QOpenGLShader::Vertex, readShaderFile("vertexShader.glsl"));
+	m_program->addShaderFromSourceCode(QOpenGLShader::Fragment, readShaderFile("fragmentShader.glsl"));
 	m_program->link();
 	m_posAttr = m_program->attributeLocation("posAttr");
 	m_colAttr = m_program->attributeLocation("colAttr");
@@ -84,4 +88,6 @@ void TriangleWindow::paintGL()
 
 	requestUpdate();
 }
+
+
 

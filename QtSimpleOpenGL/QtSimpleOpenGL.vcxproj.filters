@@ -36,10 +36,24 @@
     <ClCompile Include="trianglewindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GeneratedFiles\qrc_trianglewindow.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="trianglewindow.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="trianglewindow.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fragmentShader.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="Resources\vertexShader.glsl">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>
